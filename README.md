@@ -14,10 +14,16 @@ Custom modules are loaded after the base kernel, but started before the base ker
 The provided loader also passes a hooking/patching 'API' from enso_ex to the user's custom modules, detailed in the developer readme.<br>
 
 ### Support for unsigned base kernel modules
+ベースカーネルの未署名モジュールをサポート<br>
+
+enso_exのカスタムカーネルローダーと組み合わせることで、ユーザーはベースカーネルに独自の *.skprx プラグインを追加できます。<br>
+また、ベースカーネルモジュールを復号化された/未署名のものに置き換えることも可能です。 <br>
+デフォルトでは、2つのプラグインが提供されています。"homebrew enabler"と"bootlogo replacer"です。これらの機能は後述のreadmeで詳細に説明されています。
+
 In conjunction with enso_ex's custom kernel loader, this allows the user to add their own *.skprx plugins to the base kernel.<br>
 It is also possible to outright replace base kernel modules with decrypted/unsigned alternatives. <br>
 By default, provided are two plugins - a homebrew enabler and a bootlogo replacer, their functionality is detailed later in this readme.<br>
- 
+
 ### Code execution on the bootloader level
 Before the kernel loader, enso_ex attempts to load and run a raw code blob from the os0 partition.<br>
 This is intended to be used as an enso_ex extension that alters core information or functionality such as Firmware version, ConsoleID, QA flags, security coprocessor behavior, etc.<br>
