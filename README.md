@@ -56,6 +56,14 @@ enso_ex "forces" base kernel boot, even if some modules fail to load or start.<b
 This feature provides an additional recovery layer and unlocks the ability to boot vanilla firmwares of different types, such as testkit firmware on a retail unit.<br>
 
 ### Miscellaneous boot toggles
+その他起動オプション
+
+復元用 Readme には、特定のキーコンビネーションを押すことで起動する便利なトグル (オプション) がいくつか記載されています。
+ - emuMBR: 通常の MBR (マスターブートレコード) ではなく、別のブロックを使用するようにします。
+ - bootarea write-lock: MBR、ブートローダー、enso_ex への書き込みをブロックします。 (書き込み禁止にします)
+ - EMMC recovery: EMMC からコードブロックを読み込んで実行します。
+ - Adi-os0: os0 の初期化を無効にします。深刻な問題が発生した場合に役立ちます。
+
 A few useful toggles, triggered by holding certain key combinations, are detailed in the recovery readme.
  - emuMBR: use a different block as MBR
  - bootarea write-lock: block writes to the MBR, bootloaders, and enso_ex
