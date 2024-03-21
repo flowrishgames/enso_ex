@@ -25,10 +25,22 @@ It is also possible to outright replace base kernel modules with decrypted/unsig
 By default, provided are two plugins - a homebrew enabler and a bootlogo replacer, their functionality is detailed later in this readme.<br>
 
 ### Code execution on the bootloader level
+ブートローダー・レベルでのコード実行
+
+カーネルローダの前に、enso_ex は os0 パーティションから生コードblob をロードして実行しようとします。
+これは enso_exの拡張として使用されることを目的としています。ファームウェアバージョン、ConsoleID、QA フラグ、セキュリティコプロセッサの動作などのコア情報や機能を変更など。
+
 Before the kernel loader, enso_ex attempts to load and run a raw code blob from the os0 partition.<br>
 This is intended to be used as an enso_ex extension that alters core information or functionality such as Firmware version, ConsoleID, QA flags, security coprocessor behavior, etc.<br>
 
 ### SD2VITA-based recovery
+SD2VITAベースのリカバリー
+
+ブートローダー・レベルのリカバリー機構も含まれています。<br>
+トリガーされると、enso_exはsd2vitaを初期化し、emmcの置き換え、os0の置き換え、またはリカバリーコードブロブのソースとして使用する。<br>
+この機能は、ファイルシステムの破損、パーティションのワイプ、アップデートの失敗、enso_exのバグなど、あらゆるものに対するセーフガードを提供します。
+また、ハイブリッド・ファームウェアや「dual nand」のような、より高度な改造やいじりへの入り口です。
+
 Included is a bootloader-level recovery mechanism.
 When triggered, enso_ex will initialize and use the sd2vita as an emmc replacement, os0 replacement, or source of a recovery code blob.<br>
 This feature provides a safeguard against any kind of filesystem corruption, partition wipes, update failures, enso_ex bugs, and much more.<br>
