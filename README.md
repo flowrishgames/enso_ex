@@ -1,9 +1,9 @@
 # enso_ex
-### Untethered jailbreak and CFW loader for PlayStation Vita/TV units on firmware 3.65 <br>
-PlayStation Vita/TV(ファームウェア 3.65)向けの恒久的脱獄とカスタムファームウェア(CFW)ローダー <br>
+### PlayStation Vita/TV(ファームウェア 3.65)向けの恒久的脱獄とカスタムファームウェア(CFW)ローダー <br>
+Untethered jailbreak and CFW loader for PlayStation Vita/TV units on firmware 3.65 <br>
 
 ## Features(特徴)
-### Custom kernel loader(カスタムカーネルローダー)
+### カスタムカーネルローダー(Custom kernel loader)
 
 このカーネルローダーは、vanillaの機能を再現し、加えてテキストファイルからカスタムモジュールリストを読み込むことをサポートします。<br>
 カスタムモジュールはベースカーネルの後にロードされますが、ベースカーネルの前に開始されます - これにより、モジュールは'plugin'として機能し、素の状態でベースカーネルにパッチを当てることができます。<br>
@@ -13,8 +13,8 @@ Provided is a kernel loader that replicates vanilla functionality with added sup
 Custom modules are loaded after the base kernel, but started before the base kernel - this allows the modules to function as 'plugins' and patch the base kernel in a pristine state.<br>
 The provided loader also passes a hooking/patching 'API' from enso_ex to the user's custom modules, detailed in the developer readme.<br>
 
-### Support for unsigned base kernel modules
-ベースカーネルの未署名モジュールをサポート<br>
+### ベースカーネルの未署名モジュールをサポート
+Support for unsigned base kernel modules
 
 enso_exのカスタムカーネルローダーと組み合わせることで、ユーザーはベースカーネルに独自の *.skprx プラグインを追加できます。<br>
 また、ベースカーネルモジュールを復号化された/未署名のものに置き換えることも可能です。 <br>
@@ -24,8 +24,8 @@ In conjunction with enso_ex's custom kernel loader, this allows the user to add 
 It is also possible to outright replace base kernel modules with decrypted/unsigned alternatives. <br>
 By default, provided are two plugins - a homebrew enabler and a bootlogo replacer, their functionality is detailed later in this readme.<br>
 
-### Code execution on the bootloader level
-ブートローダー・レベルでのコード実行
+### ブートローダー・レベルでのコード実行
+Code execution on the bootloader level
 
 カーネルローダの前に、enso_ex は os0 パーティションから生コードblob をロードして実行しようとします。
 これは enso_exの拡張として使用されることを目的としています。ファームウェアバージョン、ConsoleID、QA フラグ、セキュリティコプロセッサの動作などのコア情報や機能を変更など。
@@ -33,8 +33,9 @@ By default, provided are two plugins - a homebrew enabler and a bootlogo replace
 Before the kernel loader, enso_ex attempts to load and run a raw code blob from the os0 partition.<br>
 This is intended to be used as an enso_ex extension that alters core information or functionality such as Firmware version, ConsoleID, QA flags, security coprocessor behavior, etc.<br>
 
-### SD2VITA-based recovery
-SD2VITAベースのリカバリー
+### SD2VITAベースのリカバリー
+SD2VITA-based recovery
+
 
 ブートローダー・レベルのリカバリー機構も含まれています。<br>
 トリガーされると、enso_exはsd2vitaを初期化し、emmcの置き換え、os0の置き換え、またはリカバリーコードブロブのソースとして使用する。<br>
@@ -46,8 +47,8 @@ When triggered, enso_ex will initialize and use the sd2vita as an emmc replaceme
 This feature provides a safeguard against any kind of filesystem corruption, partition wipes, update failures, enso_ex bugs, and much more.<br>
 It also opens doors to more advanced mods and tinkering, such as hybrid firmware or 'dual nand'.<br>
 
-### Kernel module load/start errors are ignored
-カーネルモジュールのロード／スタートのエラーは無視される
+### カーネルモジュールのロード／スタートのエラーは無視される
+Kernel module load/start errors are ignored
 
 enso_exは、いくつかのモジュールがロードや起動に失敗しても、ベースカーネルを "強制的に "起動させます。
 この機能は、追加の復旧レイヤーを提供し、テスト用ファームウェアを一般販売向けユニットで起動させるように、さまざまな種類の純正ファームウェアを起動する機能をアンロックします。
@@ -55,8 +56,8 @@ enso_exは、いくつかのモジュールがロードや起動に失敗して�
 enso_ex "forces" base kernel boot, even if some modules fail to load or start.<br>
 This feature provides an additional recovery layer and unlocks the ability to boot vanilla firmwares of different types, such as testkit firmware on a retail unit.<br>
 
-### Miscellaneous boot toggles
-その他起動オプション
+### その他起動オプション
+Miscellaneous boot toggles
 
 復元用 Readme には、特定のキーコンビネーションを押すことで起動する便利なトグル (オプション) がいくつか記載されています。
  - emuMBR: 通常の MBR (マスターブートレコード) ではなく、別のブロックを使用するようにします。
@@ -72,10 +73,24 @@ A few useful toggles, triggered by holding certain key combinations, are detaile
 <br>
 
 
-## Installation and configuration
+## インストールと設定
+Installation and configuration
+
+enso_ex インストーラーを含む VPK ファイルが提供されています。このインストーラーには以下のオプションがあります:
+
 Provided is a VPK file containing the enso_ex installer, which has the following options:
 
-### Install/reinstall the hack
+### enso_ex インストール/再インストール
+Install/reinstall the hack
+
+このオプションを実行すると、以下の処理が行われます。
+
+ - デバイスの種類に合わせた `boot_config.txt` ファイルが `ur0:tai/` ディレクトリに作成されます。
+ - `ux0:eex/` ディレクトリ内に enso_ex のインストールに必要なファイルが準備されます。
+ - enso_ex のプラグインが同期されます。
+ - enso_ex のコア部分がインストールされます。
+ - enso_ex の復元機能が更新されます。
+
 This option will:
  - create a type-specific `boot_config.txt` in `ur0:tai/`
  - prepare the enso_ex installation in `ux0:eex/`
@@ -83,13 +98,30 @@ This option will:
  - install enso_ex core
  - update the enso_ex recovery
 
-### Uninstall the hack
+### ハックをアンインストールする
+Uninstall the hack
+
+このオプションはenso_ex coreをアンインストールし、`ur0:tai/boot_config.txt`を削除します。
+
 This option will uninstall enso_ex core and remove `ur0:tai/boot_config.txt`
 
-### Fix boot configuration
+### ブート設定の修正
+Fix boot configuration
+
+このオプションは、`ur0:tai/` にタイプ固有の `boot_config.txt` を作成します。
+
 This option will create a type-specific `boot_config.txt` in `ur0:tai/`
 
-### Synchronize enso_ex plugins
+### enso_ex プラグインの同期
+Synchronize enso_ex plugins
+
+このオプションを実行すると、以下の処理が行われます。
+ - 使用されなくなった拡張機能が削除されます。
+ - `os0:ex/` ディレクトリが削除されます。(enso_ex 関連と思われる)
+ - `ux0:eex/boot/*` ディレクトリ内のすべてのファイルが `os0:` ディレクトリにコピーされます。
+   - ただし、`ux0:eex/boot/` ディレクトリ内に`e2x_ckldr.skprx`や`bootmgr.e2xp`ファイルが存在しない場合、それらのファイルは`os0:`ディレクトリからも削除されます。
+ - `ux0:eex/custom/*` ディレクトリ内のすべてのファイルが`os0:ex/`ディレクトリにコピーされます。(おそらく enso_ex のカスタマイズ設定と思われる)
+
 This option will:
  - remove deprecated extensions
  - remove `os0:ex/`
@@ -97,7 +129,14 @@ This option will:
    - if `e2x_ckldr.skprx` or `bootmgr.e2xp` are not present in `ux0:eex/boot/`, they will be removed from `os0:`
  - copy `ux0:eex/custom/*` to `os0:ex/`
  
-### Update the enso_ex recovery
+### enso_ex recoveryの更新
+Update the enso_ex recovery
+
+このオプションを実行すると、以下の処理が行われます。
+ - 存在する場合、`ux0:eex/recovery/rconfig.e2xp`ファイルが EMMC のブロック 4 に書き込まれます。
+ - 存在する場合、`ux0:eex/recovery/rblob.e2xp`ファイルが EMMC のブロック 0x30 以降に書き込まれます。(正確なブロック番号は不明)
+ - 存在する場合、`ux0:eex/recovery/rmbr.bin`ファイルが EMMC のブロック 3 に書き込まれます。
+
 This option will:
  - if exists, write `ux0:eex/recovery/rconfig.e2xp` to EMMC block 4
  - if exists, write `ux0:eex/recovery/rblob.e2xp` to EMMC block 0x30+
@@ -105,9 +144,15 @@ This option will:
 <br>
 
 
-## Base kernel plugins
+## ベースカーネル プラグイン
+Base kernel plugins
+
+カスタムベースカーネルプラグインを追加するには、`ux0:ex/custom/` に置き、`ux0:ex/custom/boot_list.txt` に追加し、enso_ex インストーラから "Synchronize" してください。<br> 
+デフォルトでは以下のプラグインがインストールされます。
+
 To add a custom base kernel plugin put it in `ux0:eex/custom/`, add it to the `ux0:eex/custom/boot_list.txt` and "Synchronize" via the enso_ex installer.<br>
 By default, enso_ex installer installs the following plugins:
+
 ### e2xhencfg.skprx
  - Adds support for unsigned kernel modules
  - Redirects `os0:psp2config_%model%.skprx` to `ur0:tai/boot_config.txt`
