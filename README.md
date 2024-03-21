@@ -47,6 +47,11 @@ This feature provides a safeguard against any kind of filesystem corruption, par
 It also opens doors to more advanced mods and tinkering, such as hybrid firmware or 'dual nand'.<br>
 
 ### Kernel module load/start errors are ignored
+カーネルモジュールのロード／スタートのエラーは無視される
+
+enso_exは、いくつかのモジュールがロードや起動に失敗しても、ベースカーネルを "強制的に "起動させます。
+この機能は、追加の復旧レイヤーを提供し、テスト用ファームウェアを一般販売向けユニットで起動させるように、さまざまな種類の純正ファームウェアを起動する機能をアンロックします。
+
 enso_ex "forces" base kernel boot, even if some modules fail to load or start.<br>
 This feature provides an additional recovery layer and unlocks the ability to boot vanilla firmwares of different types, such as testkit firmware on a retail unit.<br>
 
