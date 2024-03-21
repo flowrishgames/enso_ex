@@ -1,12 +1,16 @@
 # enso_ex
 ### Untethered jailbreak and CFW loader for PlayStation Vita/TV units on firmware 3.65 <br>
-<br>
+PlayStation Vita/TV(ファームウェア 3.65)向けの恒久的脱獄とカスタムファームウェア(CFW)ローダー <br>
 
-## Features
-### Custom kernel loader
+## Features(特徴)
+### Custom kernel loader(カスタムカーネルローダー)
 Provided is a kernel loader that replicates vanilla functionality with added support for a custom module list read from a text file.<br>
 Custom modules are loaded after the base kernel, but started before the base kernel - this allows the modules to function as 'plugins' and patch the base kernel in a pristine state.<br>
 The provided loader also passes a hooking/patching 'API' from enso_ex to the user's custom modules, detailed in the developer readme.<br>
+
+このカーネルローダーは、vanillaの機能を再現し、加えてテキストファイルからカスタムモジュールリストを読み込むことをサポートします。
+カスタムモジュールはベースカーネルの後にロードされますが、ベースカーネルの前に開始されます - これにより、モジュールは'plugin'として機能し、素の状態でベースカーネルにパッチを当てることができます。
+また、ローダーは、enso_exからユーザーのカスタムモジュールにフック/パッチする「API」を渡します、 詳細はdeveloper readmeに。
 
 ### Support for unsigned base kernel modules
 In conjunction with enso_ex's custom kernel loader, this allows the user to add their own *.skprx plugins to the base kernel.<br>
