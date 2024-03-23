@@ -1,5 +1,5 @@
 # enso_ex
-### PlayStation Vita/TV(ファームウェア 3.65)向けの恒久的脱獄とカスタムファームウェア(CFW)ローダー <br>
+### PlayStation Vita/TV(ファームウェア 3.65)向けの恒久的jailbreak とカスタムファームウェア(CFW)ローダー <br>
 Untethered jailbreak and CFW loader for PlayStation Vita/TV units on firmware 3.65 <br>
 
 ## Features(特徴)
@@ -154,6 +154,14 @@ To add a custom base kernel plugin put it in `ux0:eex/custom/`, add it to the `u
 By default, enso_ex installer installs the following plugins:
 
 ### e2xhencfg.skprx
+
+- **未署名カーネルモジュールのサポート**
+- **起動設定ファイルのリダイレクト**: システムブート時のファイル読み込みを以下のように変更します。
+  - 通常起動時: `os0:psp2config_%model%.skprx` ファイルから `ur0:tai/boot_config.txt` ファイルにリダイレクトします。
+  - セーフモード時: リダイレクトを行わず、`os0:psp2config_%model%.skprx` ファイルを読み込みます。
+  - □ボタンを押しながら起動時: `ux0:eex/boot_config.txt` ファイルを読み込みます (セーフモード時も有効)。
+  - devkitのPSTVモード時: `ur0:tai/boot_config_kitv.txt` または `ux0:eex/boot_config_kitv.txt` ファイルを読み込みます。
+
  - Adds support for unsigned kernel modules
  - Redirects `os0:psp2config_%model%.skprx` to `ur0:tai/boot_config.txt`
    - if in safe mode, the default redirect is skipped
@@ -161,6 +169,12 @@ By default, enso_ex installer installs the following plugins:
    - on devkits in PSTV mode, `ur0:tai/boot_config_kitv.txt` or `ux0:eex/boot_config_kitv.txt` is used
 
 ### e2xculogo.skprx
+
+- **カスタムブートロゴ**: デフォルトの PlayStation ブートロゴが `os0:ex/bootlogo.raw` ファイルに置き換えられるようになりました。
+- **ロゴの形式**: RGBA32 フォーマット、960x544 ピクセル
+- **ロゴの有無**: ファイルが見つからない場合、ブートロゴは表示されません。
+- **セーフモード**: セーフモード時にはカスタムロゴは無効になります。
+
  - replaces the default PlayStation boot logo with `os0:ex/bootlogo.raw`
    - format is RGBA32 960x544
    - if no logo found, no logo will be displayed
