@@ -1,3 +1,59 @@
+# enso_ex リカバリー
+
+## リカバリー起動キーの組み合わせ
+
+* `select`: sd2vita リカバリーを実行
+* `start`: eMMC リカバリーを実行
+* `start+circle`: eMMC リカバリーを無効化し、ブートオプションの切替を有効化
+    * `+triangle`: ブートローダーと enso_ex を読み込み専用にする
+    * `+dpad 上`: ブロック 1 ではなくブロック 3 から emuMBR を使用する
+    * `+dpad 右`: os0 の初期化をスキップ
+* `音量下`: bootmgr とカスタムカーネルローダーをスキップ
+* `音量上`: カスタムカーネルローダーのカスタムプラグインをスキップ
+* `PSTV では何も押さない`: sd2vita リカバリーを実行
+
+## sd2VITA リカバリー
+
+GC-SD リカバリーモードは、起動時に SELECT ボタンを押すことで起動します。このモードでは、enso_ex は sd2vita から最初のセクターを読み取り、内容に応じてそれぞれのリカバリー手順を実行します。
+
+### RAW モード
+
+* 最初の 0x10 バイトに特定の「マジック」値が含まれている場合、それは enso_ex がロードして実行する生のコードブロブのための リカバリーブロック構造: [https://github.com/SKGleba/enso_ex/blob/master/core/ex_defs.h#L38](https://github.com/SKGleba/enso_ex/blob/master/core/ex_defs.h#L38) として扱われます。
+
+### FAT16 モード
+
+* 最初のセクターが FAT16 パーティションの PBR である場合、enso_ex はそれをベースカーネルの `os0:` としてマウントします。
+
+### SCE MBR モード
+
+* 最初のセクターが SCE MBR である場合、enso_ex は EMMC MBR に基づいて sd2vita オフセットから `os0:` をマウントします。
+* ベースカーネル用にのみ sd2vita からマウントされます。
+
+### エラーの認識
+
+* エラーが発生しなかった場合、またはデバイスが PSTV である場合、enso_ex はブートを続行します。
+* sd2vita が読み込めなかった場合、ユーザーは TRIANGLE ボタンを押してブートを続ける必要があります。
+* 不明なデータが見つかった場合、ユーザーは CIRCLE ボタンを押してブートを続ける必要があります。
+* os0 のマウントまたはカスタムコードが失敗した場合、ユーザーは CROSS ボタンを押してブートを続ける必要があります。
+
+#### 例
+
+* heartbeat: recovery/external/heartbeat: KBL パラメータを使用して sd2vita の最初のセクターを上書きします。
+* gui-usb-mount: recovery/external/gui-usb-mount: EMMCとそのパーティションを USB マウントできるメニュー
+* enso_flash: recovery/external/enso_flash: sd2vita から enso_ex を更新します。
+
+### eMMC リカバリー
+
+EMMC リカバリーモードは、起動時に START ボタンを押すことで起動します。このモードでは、enso_ex は EMMC セクター 4 からデータをロードし、生のコードブロブとして実行します。
+
+* `ux0:eex/recovery/rconfig.e2xp` にブロブを配置した後、enso_ex インストーラーの「同期」オプションを使用して更新できます。
+* セクター 0x30+ にあるより大きなコードブロブのブートストラップとして使用することを目的としています。このブロブは、`ux0:eex/recovery/rblob.e2xp` に配置した後、enso_ex インストーラーの「同期」オプションを使用して更新できます。
+
+### 例
+
+* default: recovery/internal/default: 単に `os0:` を初期化する大きなブートストラップをロードします。
+
+
 # enso_ex recovery
 ## Recovery key combinations
  - `select`: run sd2vita recovery
